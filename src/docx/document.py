@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from typing import IO, TYPE_CHECKING, Iterator, List
+from docx.oxml.textbox import find_textboxes
 
 from docx.blkcntnr import BlockItemContainer
 from docx.enum.section import WD_SECTION
@@ -186,6 +187,13 @@ class Document(ElementProxy):
         if self.__body is None:
             self.__body = _Body(self._element.body, self)
         return self.__body
+    
+    @property
+    def textboxes(self):
+        """
+        List all text box objects in the document.
+        """
+        return find_textboxes(self._element)
 
 
 class _Body(BlockItemContainer):
